@@ -39,3 +39,6 @@ backend www-backend
         redirect scheme https if !{ ssl_fc }
         server 5648-web-01 3.90.248.82:80 check
         server 5648-web-02 52.91.216.217:80 check
+
+backend letsencrypt-backend
+	server letsencrypt 127.0.0.1:54321
