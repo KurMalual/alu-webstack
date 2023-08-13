@@ -30,15 +30,14 @@ defaults
         errorfile 403 /etc/haproxy/errors/403.http
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
-frontend www-https
-        bind *:443 ssl crt /etc/letsencrypt/live/kurmalual.tech.pem
-        reqadd X-Forwarded-Proto:\ https
+
+frontend www-http
+        bind *:443 ssl crt /etc/letsencrypt/live/www.kurmalual.tech/fullchain.pem
+        http-request add-header x-Forward-Proto https
         default_backend www-backend
+
 backend www-backend
         balance roundrobin
         redirect scheme https if !{ ssl_fc }
         server 5648-web-01 3.90.248.82:80 check
         server 5648-web-02 52.91.216.217:80 check
-
-backend letsencrypt-backend
-	server letsencrypt 127.0.0.1:54321
